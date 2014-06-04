@@ -1,0 +1,62 @@
+#----------------------------------------------------------------
+#------------------------   Antaeus  ----------------------------
+#----------------------------------------------------------------
+PROJECT (ANTAEUS)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+SET(CMAKE_C_COMPILER g++)
+
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS}  -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE  -O0 -Wall -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS}  -D_FILE_OFFSET_BITS=64 -D_LARGE_FILE -Wall -O2 ")
+
+IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  #ADD_DEFINITIONS(-DDEBUG)
+  MESSAGE(STATUS "Debug Mode")
+  MESSAGE(STATUS "Flags:" ${CMAKE_CXX_FLAGS_DEBUG} )
+ELSE (CMAKE_BUILD_TYPE STREQUAL "Release")
+  MESSAGE(STATUS "Release Mode")
+  MESSAGE(STATUS "Flags:" ${CMAKE_CXX_FLAGS_RELEASE})
+ENDIF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+find_package(Libcurl REQUIRED)
+find_package(Libconfig REQUIRED)
+find_package(GFlags REQUIRED)
+find_package(Jsoncpp REQUIRED)
+find_package(Mysql REQUIRED)
+find_package(Log4cpp REQUIRED)
+find_package(Openssl REQUIRED)
+
+
+include_directories(
+    ${LIBCURL_INCLUDE_DIR}
+    ${LIBCONFIG_INCLUDE_DIR}
+    ${GFLAGS_INCLUDE_DIR}
+    ${JSONCPP_INCLUDE_DIR}
+    ${MYSQL_INCLUDE_DIR}
+    ${LOG4CPP_INCLUDE_DIR}
+    ${OPENSSL_INCLUDE_DIR}
+)
+
+AUX_SOURCE_DIRECTORY(./ DIR_SRCS)
+
+SET(ANTAEUS_LIBRARIES
+    ${LIBCURL_LIBRARY}
+    ${LIBCONFIG_LIBRARY}    
+    ${GFLAGS_LIBRARY}
+    ${JSONCPP_LIBRARY}
+    ${MYSQL_LIBRARY}
+    ${LOG4CPP_LIBRARY}
+    ${OPENSSL_LIBRARY}
+    ${CRYPTO_LIBRARY}
+)
+
+message(STATUS "Libs: ${ANTAEUS_LIBRARIES}")
+
+ADD_EXECUTABLE(antaeusd ${DIR_SRCS})
+TARGET_LINK_LIBRARIES(antaeusd ${ANTAEUS_LIBRARIES})
+
+SET(EXECUTABLE_OUTPUT_PATH ./)
