@@ -22,6 +22,7 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+find_package(Libev REQUIRED)
 find_package(Libcurl REQUIRED)
 find_package(Libconfig REQUIRED)
 find_package(GFlags REQUIRED)
@@ -32,6 +33,7 @@ find_package(Openssl REQUIRED)
 
 
 include_directories(
+    ${LIBEV_INCLUDE_DIR}
     ${LIBCURL_INCLUDE_DIR}
     ${LIBCONFIG_INCLUDE_DIR}
     ${GFLAGS_INCLUDE_DIR}
@@ -44,6 +46,7 @@ include_directories(
 AUX_SOURCE_DIRECTORY(./ DIR_SRCS)
 
 SET(ANTAEUS_LIBRARIES
+    ${LIBEV_LIBRARY}
     ${LIBCURL_LIBRARY}
     ${LIBCONFIG_LIBRARY}    
     ${GFLAGS_LIBRARY}

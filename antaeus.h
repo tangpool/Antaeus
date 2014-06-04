@@ -26,8 +26,7 @@
 #include "hash.h"
 #include "log.h"
 
-#define BITCOIN_ADDRESS_MAX_SIZE 36
-#define BITCOIND_RPC_TIMEOUT_SEC 3
+#define BITCOIND_RPC_TIMEOUT_SEC   3
 
 #define ANTAEUS_DEFAULT_CONF "antaeus.conf"
 
